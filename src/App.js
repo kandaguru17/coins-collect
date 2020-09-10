@@ -1,24 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import ShowProjects from './containers/showProjects';
+import CreateProject from './containers/CreateProject';
+import Navbar from './component/Navbar';
+import { Switch, Route } from 'react-router-dom';
+import ViewProjectDetails from './containers/ViewProjectDetails';
+import ViewSpendingRequests from './containers/ViewSpendingRequests';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className=''>
+      <Navbar />
+      <div className='container'>
+        <Switch>
+          <Route path='/show' component={ShowProjects} />
+          <Route path='/create' component={CreateProject} />
+          <Route path='/view/:campaignId' component={ViewProjectDetails} />
+          <Route path='/campaigns/:campaignId/requests' component={ViewSpendingRequests} />
+        </Switch>
+      </div>
     </div>
   );
 }
