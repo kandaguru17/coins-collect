@@ -1,17 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import factoryInstance from '../ethereum/factory';
 
-function ProjectCard({ address, description }) {
+function ProjectCard({ address }) {
+  const onDelete = () => {
+    factoryInstance.methods.deleteCampaign();
+  };
+
   return (
-    <div className='col-4 my-2'>
+    <div className='col-6 my-2'>
       <div className='card text-center' key={address}>
-        <div className='card-header'>{address}</div>
+        <div className='card-header'>
+          <strong>{address}</strong>
+        </div>
         <div className='card-body'>
-          <h5 className='card-title'>Project Address : {address}</h5>
-          <p className='card-text'>{description}</p>
-          <Link to={`/view/${address}`} className='btn btn-primary'>
+          <Link to={`/view/${address}`} className='btn btn-outline-primary mx-1'>
             View project
           </Link>
+          <button className='btn btn-outline-warning mx-1'>Edit</button>
+          <button className='btn btn-outline-danger'>Delete</button>
         </div>
       </div>
     </div>

@@ -4,11 +4,12 @@ import web3 from '../ethereum/web3';
 import { useHistory } from 'react-router-dom';
 
 function CreateProject() {
-  const [state, setState] = useState({ minimumContribution: 0, message: '', isLoading: false });
+  const [state, setState] = useState({ minimumContribution: 0, description: '', message: '', isLoading: false });
   const history = useHistory();
 
   const onChange = (e) => {
-    setState({ minimumContribution: e.target.value });
+    e.persist();
+    setState((prevState) => ({ ...prevState, [e.target.name]: e.target.value }));
   };
 
   const onFormSubmit = async (e) => {
@@ -16,7 +17,7 @@ function CreateProject() {
     e.preventDefault();
     try {
       const accounts = await web3.eth.getAccounts();
-      await factoryInstance.methods.createCampaign(state.minimumContribution).send({ from: accounts[0] });
+      await factoryInstance.methods.createCampaign(state.minimumContribution, state.description).send({ from: accounts[0] });
       setState((prevState) => ({ ...prevState, isLoading: false }));
       history.push('/show');
     } catch (err) {
@@ -61,10 +62,24 @@ function CreateProject() {
             </span>
           </div>
         </div>
-        <button type='submit' className='btn btn-primary' disabled={state.isLoading}>
-          {state.isLoading && <span class='spinner-grow spinner-grow-sm mr-1' role='status' aria-hidden='true' />}
-          Create Project
-        </button>
+        <div className='col-6 offset-2 mt-3'>
+          <textarea
+            rows='10'
+            type='text'
+            value={state.description}
+            className='form-control '
+            placeholder='description'
+            name='description'
+            onChange={onChange}
+            value={state.description}
+          />
+        </div>
+        <div className='col-6 offset-2 mt-3'>
+          <button type='submit' className='btn btn-primary' disabled={state.isLoading}>
+            {state.isLoading && <span class='spinner-grow spinner-grow-sm mr-1' role='status' aria-hidden='true' />}
+            Create Project
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -1,24 +1,74 @@
 pragma solidity >=0.4.25 <0.7.0;
 
 contract CampaignFactory {
-    Campaign[] public deployedCampaigns;
+    struct CampaignStruct {
+        uint256 id;
+        Campaign campaign;
+    }
 
-    function createCampaign(uint256 minimumContribution) public {
+    CampaignStruct[] public deployedCampaigns;
+    uint256 nextIndex = 1;
+
+    function createCampaign(
+        uint256 minimumContribution,
+        string memory description
+    ) public {
         Campaign createdCampaign = new Campaign(
             minimumContribution,
+            description,
             msg.sender
         );
-        deployedCampaigns.push(createdCampaign);
+
+        deployedCampaigns.push(
+            CampaignStruct({campaign: createdCampaign, id: nextIndex})
+        );
+        nextIndex++;
+    }
+
+    function updateCampaign(
+        address _campaignAddress,
+        uint256 _minimumContribution,
+        string memory _description
+    ) public {
+        Campaign campAtAddress = Campaign(_campaignAddress);
+        campAtAddress.setMinimumContribution(_minimumContribution);
+        campAtAddress.setCampaignDescription(_description);
     }
 
     function getDeployedContracts() public view returns (Campaign[] memory) {
-        return deployedCampaigns;
+        Campaign[] memory campaigns = new Campaign[](deployedCampaigns.length);
+        for (uint256 i = 0; i < deployedCampaigns.length; i++) {
+            CampaignStruct storage cs = deployedCampaigns[i];
+            campaigns[i] = cs.campaign;
+        }
+        return campaigns;
+    }
+
+    function deleteCampaign(address _campaignAddress) public {
+        uint256 foundIndex = getCampaignIndex(_campaignAddress);
+        Campaign campToDelete = Campaign(_campaignAddress);
+        delete deployedCampaigns[foundIndex - 1];
+        campToDelete.killInstance();
+    }
+
+    function getCampaignIndex(address _campaignAddress)
+        internal
+        view
+        returns (uint256)
+    {
+        for (uint256 i = 0; i < deployedCampaigns.length; i++) {
+            if (address(deployedCampaigns[i].campaign) == _campaignAddress) {
+                return deployedCampaigns[i].id;
+            }
+        }
+        revert("Campaign not found");
     }
 }
 
 contract Campaign {
     address public manager;
     uint256 public minimumContribution;
+    string public campignDescription;
     mapping(address => bool) public contributors;
     uint256 public contributorsCount;
     Request[] public requests;
@@ -32,9 +82,14 @@ contract Campaign {
         mapping(address => bool) approvers;
     }
 
-    constructor(uint256 _minimumContribution, address senderAddress) public {
-        manager = senderAddress;
+    constructor(
+        uint256 _minimumContribution,
+        string memory _description,
+        address _senderAddress
+    ) public {
+        manager = _senderAddress;
         minimumContribution = _minimumContribution;
+        campignDescription = _description;
     }
 
     function getBalance() public view returns (uint256) {
@@ -43,6 +98,7 @@ contract Campaign {
 
     // function is payable because this transaction needs some value (ether/wei)
     function contribute() public payable minimumContributionCheck {
+        require(!contributors[msg.sender], "Already Contributed");
         contributors[msg.sender] = true;
         contributorsCount++;
     }
@@ -81,9 +137,12 @@ contract Campaign {
     {
         Request storage request = requests[requestIndex];
         require(!requests[requestIndex].complete);
-
         request.recipient.transfer(request.value);
         request.complete = true;
+    }
+
+    function killInstance() public {
+        selfdestruct(manager);
     }
 
     function getCampaignInfo()
@@ -91,6 +150,7 @@ contract Campaign {
         view
         returns (
             address,
+            string memory,
             uint256,
             uint256,
             uint256,
@@ -99,6 +159,7 @@ contract Campaign {
     {
         return (
             manager,
+            campignDescription,
             address(this).balance,
             minimumContribution,
             contributorsCount,
@@ -106,7 +167,15 @@ contract Campaign {
         );
     }
 
-    function getSpendingRequestsCount() public view returns (uint256) {
+    function setMinimumContribution(uint256 _minimumContribution) external {
+        minimumContribution = _minimumContribution;
+    }
+
+    function setCampaignDescription(string _description) external {
+        campignDescription = _description;
+    }
+
+    function getSpendingRequestLength() public view returns (uint256) {
         return requests.length;
     }
 

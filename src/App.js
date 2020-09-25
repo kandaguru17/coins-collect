@@ -9,7 +9,7 @@ import ViewSpendingRequests from './containers/ViewSpendingRequests';
 
 function App() {
   return (
-    <div className=''>
+    <div>
       <Navbar />
       <div className='container'>
         <Switch>

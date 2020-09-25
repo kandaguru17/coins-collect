@@ -11,7 +11,7 @@ function ViewProjectDetails(props) {
   const { campaignId } = props.match.params;
   const history = useHistory();
   const [state, setState] = useState({ isLoading: true, result: {}, message: '' });
-  const [spendingRequest, setSpendingRequest] = useState({ description: '', value: '', recepient: '' });
+  const [isLoading, setLoading] = useState(false);
   const campaignInstance = getCampaignInstance(campaignId);
 
   useEffect(() => {
@@ -24,10 +24,21 @@ function ViewProjectDetails(props) {
       }
     };
     getProejctData();
-  }, []);
+  }, [isLoading]);
 
   const loadingData = () => {
     return state.isLoading && <div className='text-center'>{renderLoading()}</div>;
+  };
+
+  const createSpendingRequest = async (desc, value, rece) => {
+    const accounts = await web3.eth.getAccounts();
+    try {
+      await campaignInstance.methods.createSpendingRequest(desc, value, rece).send({
+        from: accounts[0],
+      });
+    } catch (err) {
+      setState((prevState) => ({ ...prevState, message: err.message }));
+    }
   };
 
   const contributeToProject = async (value) => {
@@ -37,36 +48,38 @@ function ViewProjectDetails(props) {
         from: accounts[0],
         value,
       });
-      history.push(`/campaigns/${campaignId}/contributors`);
     } catch (err) {
       setState((prevState) => ({ ...prevState, message: err.message }));
     }
   };
 
-  const createSpendingRequest = async (desc, value, rece) => {
-    const accounts = await web3.eth.getAccounts();
-    try {
-      await campaignInstance.methods.createSpendingRequest(desc, value, rece).send({
-        from: accounts[0],
-      });
-      history.push(`/campaigns/${campaignId}/requests`);
-    } catch (err) {
-      setState((prevState) => ({ ...prevState, message: err.message }));
-    }
+  const renderForms = () => {
+    return (
+      !state.isLoading && (
+        <div className='row mt-5'>
+          <ProjectDetails result={state.result} isLoading={state.isLoading} campaignId={campaignId} />
+          <div className='col-6'>
+            <ContributeForm
+              placeholder='Contribution Amount'
+              buttonText='contribute'
+              isLoading={isLoading}
+              contributeToProject={contributeToProject}
+            />
+            <SpendingRequestForm onFormSubmit={createSpendingRequest} isLoading={isLoading} />
+          </div>
+        </div>
+      )
+    );
   };
 
   return (
     <>
-      <h2>
-        Project Info of <strong>{campaignId}</strong>
+      <h2 className='text-center'>
+        <strong>{campaignId}</strong>
       </h2>
-      {loadingData()}
-      <div className='row mt-5'>
-        <ProjectDetails result={state.result} isLoading={state.isLoading} />
-        <div className='col-6'>
-          <ContributeForm placeholder='Contribution Amount' buttonText='contribute' isLoading={state.isLoading} onFormSumit={contributeToProject} />
-          <SpendingRequestForm onFormSubmit={createSpendingRequest} isLoading={state.isLoading} setSpendingRequest={setSpendingRequest} state={spendingRequest} />
-        </div>
+      <div className='text-center'>
+        {loadingData()}
+        {renderForms()}
       </div>
     </>
   );

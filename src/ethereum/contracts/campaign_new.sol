@@ -1,14 +1,13 @@
 pragma solidity >=0.4.25 <0.7.0;
 
 contract CampaignFactory {
-    CampaignStruct[] public deployedCampaigns;
-
-    uint256 nextIndex = 1;
-
     struct CampaignStruct {
         uint256 id;
         Campaign campaign;
     }
+
+    CampaignStruct[] public deployedCampaigns;
+    uint256 nextIndex = 1;
 
     function createCampaign(
         uint256 minimumContribution,
@@ -27,14 +26,13 @@ contract CampaignFactory {
     }
 
     function updateCampaign(
-        uint256 index,
+        address _campaignAddress,
         uint256 _minimumContribution,
         string memory _description
     ) public {
-        CampaignStruct storage cs = deployedCampaigns[index];
-        Campaign c = cs.campaign;
-        c.setMinimumContribution(_minimumContribution);
-        c.setCampaignDescription(_description);
+        Campaign campAtAddress = Campaign(_campaignAddress);
+        campAtAddress.setMinimumContribution(_minimumContribution);
+        campAtAddress.setCampaignDescription(_description);
     }
 
     function getDeployedContracts() public view returns (Campaign[] memory) {
@@ -46,39 +44,34 @@ contract CampaignFactory {
         return campaigns;
     }
 
-    function getOneCampaign(uint256 index)
-        public
+    function deleteCampaign(address _campaignAddress) public {
+        uint256 foundIndex = getCampaignIndex(_campaignAddress);
+        Campaign campToDelete = Campaign(_campaignAddress);
+        delete deployedCampaigns[foundIndex - 1];
+        campToDelete.killInstance();
+    }
+
+    function getCampaignIndex(address _campaignAddress)
+        internal
         view
-        returns (uint256, string memory)
+        returns (uint256)
     {
-        return (
-            deployedCampaigns[index].campaign.minimumContribution(),
-            deployedCampaigns[index].campaign.campignDescription()
-        );
-    }
-
-    function deleteCampaign(uint256 index) public {
-        delete deployedCampaigns[index];
-    }
-
-    function getCampaignIndex(uint256 index) public view returns (uint256) {}
-
-    modifier onlyMananger(Campaign c) {
-        require(
-            msg.sender == c.manager(),
-            "only Mananger can perform this operation"
-        );
-        _;
+        for (uint256 i = 0; i < deployedCampaigns.length; i++) {
+            if (address(deployedCampaigns[i].campaign) == _campaignAddress) {
+                return deployedCampaigns[i].id;
+            }
+        }
+        revert("Campaign not found");
     }
 }
 
 contract Campaign {
-    address public manager;
+    address payable public manager;
     uint256 public minimumContribution;
     string public campignDescription;
     mapping(address => bool) public contributors;
     uint256 public contributorsCount;
-    Request[] public requests;ss
+    Request[] public requests;
 
     struct Request {
         string description;
@@ -92,7 +85,7 @@ contract Campaign {
     constructor(
         uint256 _minimumContribution,
         string memory _description,
-        address _senderAddress
+        address payable _senderAddress
     ) public {
         manager = _senderAddress;
         minimumContribution = _minimumContribution;
@@ -146,6 +139,10 @@ contract Campaign {
         require(!requests[requestIndex].complete);
         request.recipient.transfer(request.value);
         request.complete = true;
+    }
+
+    function killInstance() public {
+        selfdestruct(manager);
     }
 
     function getCampaignInfo()
