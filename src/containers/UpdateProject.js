@@ -1,26 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import factoryInstance from '../ethereum/factory';
 import web3 from '../ethereum/web3';
 import { useHistory } from 'react-router-dom';
 import From from '../component/From';
+import getDeployedCampaignInstance from '../ethereum/campaign';
 
-function CreateProject() {
+function UpdateProject(props) {
   const [state, setState] = useState({ minimumContribution: 0, description: '', message: '', isLoading: false });
   const history = useHistory();
+  const { campaignId } = props.match.params;
+  const campaign = getDeployedCampaignInstance(campaignId);
 
   const onChange = (e) => {
     e.persist();
     setState((prevState) => ({ ...prevState, [e.target.name]: e.target.value }));
   };
 
+  useEffect(() => {
+    const getIntialData = async () => {
+      setState((prevState) => ({ ...prevState, isLoading: true }));
+      const res = await campaign.methods.getCampaignInfo().call();
+      setState((prevState) => ({ ...prevState, minimumContribution: res[3], description: res[1], isLoading: false }));
+    };
+    getIntialData();
+  }, []);
+
   const onFormSubmit = async (e) => {
     setState((prevState) => ({ ...prevState, isLoading: true, message: '' }));
     e.preventDefault();
     try {
       const accounts = await web3.eth.getAccounts();
-      await factoryInstance.methods
-        .createCampaign(state.minimumContribution, state.description)
-        .send({ from: accounts[0] });
+      await campaign.methods.updateCampaign(state.minimumContribution, state.description).send({ from: accounts[0] });
       setState((prevState) => ({ ...prevState, isLoading: false }));
       history.push('/show');
     } catch (err) {
@@ -34,7 +44,7 @@ function CreateProject() {
       !state.isLoading &&
       !!state.message && (
         <div className={`${className} p-3 mt-3`} role='alert'>
-          <h4 class='alert-heading'>Oops!</h4>
+          <h4 className='alert-heading'>Oops!</h4>
           {state.message}
           <button
             type='button'
@@ -60,4 +70,4 @@ function CreateProject() {
   );
 }
 
-export default CreateProject;
+export default UpdateProject;

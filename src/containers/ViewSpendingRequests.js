@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import getCampaignInstance from '../ethereum/campaign';
-import { renderLoading } from './showProjects';
+import { renderLoading } from './ShowProjects';
 import web3 from '../ethereum/web3';
 import RequestTableRow from '../component/RequestTableRow';
 

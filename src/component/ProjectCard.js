@@ -1,12 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import factoryInstance from '../ethereum/factory';
+import web3 from '../ethereum/web3';
 
-function ProjectCard({ address }) {
-  const onDelete = () => {
-    factoryInstance.methods.deleteCampaign();
-  };
-
+function ProjectCard({ address, onDelete }) {
   return (
     <div className='col-6 my-2'>
       <div className='card text-center' key={address}>
@@ -17,8 +14,12 @@ function ProjectCard({ address }) {
           <Link to={`/view/${address}`} className='btn btn-outline-primary mx-1'>
             View project
           </Link>
-          <button className='btn btn-outline-warning mx-1'>Edit</button>
-          <button className='btn btn-outline-danger'>Delete</button>
+          <Link to={`/update/${address}`} className='btn btn-outline-warning mx-1'>
+            Edit
+          </Link>
+          <button className='btn btn-outline-danger' onClick={onDelete}>
+            Delete
+          </button>
         </div>
       </div>
     </div>

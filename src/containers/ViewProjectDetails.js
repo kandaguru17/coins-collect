@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import getCampaignInstance from '../ethereum/campaign';
-import { renderLoading } from './showProjects';
+import { renderLoading } from './ShowProjects';
 import ProjectDetails from '../component/ProjectDetails';
 import ContributeForm from '../component/ContributeForm';
 import web3 from '../ethereum/web3';
@@ -11,7 +11,8 @@ function ViewProjectDetails(props) {
   const { campaignId } = props.match.params;
   const history = useHistory();
   const [state, setState] = useState({ isLoading: true, result: {}, message: '' });
-  const [isLoading, setLoading] = useState(false);
+  const [reRender, setReRender] = useState(false);
+
   const campaignInstance = getCampaignInstance(campaignId);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ function ViewProjectDetails(props) {
       }
     };
     getProejctData();
-  }, [isLoading]);
+  }, [reRender]);
 
   const loadingData = () => {
     return state.isLoading && <div className='text-center'>{renderLoading()}</div>;
@@ -36,6 +37,7 @@ function ViewProjectDetails(props) {
       await campaignInstance.methods.createSpendingRequest(desc, value, rece).send({
         from: accounts[0],
       });
+      setReRender(!reRender);
     } catch (err) {
       setState((prevState) => ({ ...prevState, message: err.message }));
     }
@@ -48,6 +50,7 @@ function ViewProjectDetails(props) {
         from: accounts[0],
         value,
       });
+      setReRender(!reRender);
     } catch (err) {
       setState((prevState) => ({ ...prevState, message: err.message }));
     }
@@ -62,10 +65,10 @@ function ViewProjectDetails(props) {
             <ContributeForm
               placeholder='Contribution Amount'
               buttonText='contribute'
-              isLoading={isLoading}
+              isLoading={state.isLoading}
               contributeToProject={contributeToProject}
             />
-            <SpendingRequestForm onFormSubmit={createSpendingRequest} isLoading={isLoading} />
+            <SpendingRequestForm onFormSubmit={createSpendingRequest} isLoading={state.isLoading} />
           </div>
         </div>
       )

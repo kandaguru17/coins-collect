@@ -25,15 +25,15 @@ contract CampaignFactory {
         nextIndex++;
     }
 
-    function updateCampaign(
-        address _campaignAddress,
-        uint256 _minimumContribution,
-        string memory _description
-    ) public {
-        Campaign campAtAddress = Campaign(_campaignAddress);
-        campAtAddress.setMinimumContribution(_minimumContribution);
-        campAtAddress.setCampaignDescription(_description);
-    }
+    // function updateCampaign(
+    //     address _campaignAddress,
+    //     uint256 _minimumContribution,
+    //     string memory _description
+    // ) public {
+    //     Campaign campAtAddress = Campaign(_campaignAddress);
+    //     campAtAddress.setMinimumContribution(_minimumContribution);
+    //     campAtAddress.setCampaignDescription(_description);
+    // }
 
     function getDeployedContracts() public view returns (Campaign[] memory) {
         Campaign[] memory campaigns = new Campaign[](deployedCampaigns.length);
@@ -167,13 +167,21 @@ contract Campaign {
         );
     }
 
-    function setMinimumContribution(uint256 _minimumContribution) external {
+    function updateCampaign(
+        uint256 _minimumContribution,
+        string memory _description
+    ) public onlyMananger {
         minimumContribution = _minimumContribution;
-    }
-
-    function setCampaignDescription(string _description) external {
         campignDescription = _description;
     }
+
+    // function setMinimumContribution(uint256 _minimumContribution) external {
+    //     minimumContribution = _minimumContribution;
+    // }
+
+    // function setCampaignDescription(string _description) external {
+    //     campignDescription = _description;
+    // }
 
     function getSpendingRequestLength() public view returns (uint256) {
         return requests.length;
