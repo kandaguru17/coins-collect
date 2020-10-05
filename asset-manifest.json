@@ -1,26 +1,26 @@
 {
   "files": {
     "main.css": "/coins-collect/static/css/main.dc0a14bb.chunk.css",
-    "main.js": "/coins-collect/static/js/main.3e112970.chunk.js",
-    "main.js.map": "/coins-collect/static/js/main.3e112970.chunk.js.map",
+    "main.js": "/coins-collect/static/js/main.367775c1.chunk.js",
+    "main.js.map": "/coins-collect/static/js/main.367775c1.chunk.js.map",
     "runtime-main.js": "/coins-collect/static/js/runtime-main.30e426cd.js",
     "runtime-main.js.map": "/coins-collect/static/js/runtime-main.30e426cd.js.map",
     "static/css/2.d9ad5f5c.chunk.css": "/coins-collect/static/css/2.d9ad5f5c.chunk.css",
-    "static/js/2.258494c1.chunk.js": "/coins-collect/static/js/2.258494c1.chunk.js",
-    "static/js/2.258494c1.chunk.js.map": "/coins-collect/static/js/2.258494c1.chunk.js.map",
+    "static/js/2.1e22bf2c.chunk.js": "/coins-collect/static/js/2.1e22bf2c.chunk.js",
+    "static/js/2.1e22bf2c.chunk.js.map": "/coins-collect/static/js/2.1e22bf2c.chunk.js.map",
     "index.html": "/coins-collect/index.html",
-    "precache-manifest.6f42dbb86dd04aaefe448c60184375cb.js": "/coins-collect/precache-manifest.6f42dbb86dd04aaefe448c60184375cb.js",
+    "precache-manifest.a033f47217f45b8556775d3218590676.js": "/coins-collect/precache-manifest.a033f47217f45b8556775d3218590676.js",
     "service-worker.js": "/coins-collect/service-worker.js",
     "static/css/2.d9ad5f5c.chunk.css.map": "/coins-collect/static/css/2.d9ad5f5c.chunk.css.map",
     "static/css/main.dc0a14bb.chunk.css.map": "/coins-collect/static/css/main.dc0a14bb.chunk.css.map",
-    "static/js/2.258494c1.chunk.js.LICENSE.txt": "/coins-collect/static/js/2.258494c1.chunk.js.LICENSE.txt",
+    "static/js/2.1e22bf2c.chunk.js.LICENSE.txt": "/coins-collect/static/js/2.1e22bf2c.chunk.js.LICENSE.txt",
     "static/media/appLogo.png": "/coins-collect/static/media/appLogo.d5e4c3c8.png"
   },
   "entrypoints": [
     "static/js/runtime-main.30e426cd.js",
     "static/css/2.d9ad5f5c.chunk.css",
-    "static/js/2.258494c1.chunk.js",
+    "static/js/2.1e22bf2c.chunk.js",
     "static/css/main.dc0a14bb.chunk.css",
-    "static/js/main.3e112970.chunk.js"
+    "static/js/main.367775c1.chunk.js"
   ]
 }
