@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e4af50a2d3c82edf3738d544ed2a495e",
+    "revision": "e59799c23c8a0794afad43ef502ea402",
     "url": "/coins-collect/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/coins-collect/static/css/2.d9ad5f5c.chunk.css"
   },
   {
-    "revision": "05277241c4d25783b13d",
+    "revision": "666f6f2e5f7f12ec75ad",
     "url": "/coins-collect/static/css/main.dc0a14bb.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/coins-collect/static/js/2.1e22bf2c.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "05277241c4d25783b13d",
-    "url": "/coins-collect/static/js/main.367775c1.chunk.js"
+    "revision": "666f6f2e5f7f12ec75ad",
+    "url": "/coins-collect/static/js/main.f3b8070f.chunk.js"
   },
   {
     "revision": "8a2c150bd010a8f0304a",

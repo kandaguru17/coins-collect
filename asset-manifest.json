@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/coins-collect/static/css/main.dc0a14bb.chunk.css",
-    "main.js": "/coins-collect/static/js/main.367775c1.chunk.js",
-    "main.js.map": "/coins-collect/static/js/main.367775c1.chunk.js.map",
+    "main.js": "/coins-collect/static/js/main.f3b8070f.chunk.js",
+    "main.js.map": "/coins-collect/static/js/main.f3b8070f.chunk.js.map",
     "runtime-main.js": "/coins-collect/static/js/runtime-main.30e426cd.js",
     "runtime-main.js.map": "/coins-collect/static/js/runtime-main.30e426cd.js.map",
     "static/css/2.d9ad5f5c.chunk.css": "/coins-collect/static/css/2.d9ad5f5c.chunk.css",
     "static/js/2.1e22bf2c.chunk.js": "/coins-collect/static/js/2.1e22bf2c.chunk.js",
     "static/js/2.1e22bf2c.chunk.js.map": "/coins-collect/static/js/2.1e22bf2c.chunk.js.map",
     "index.html": "/coins-collect/index.html",
-    "precache-manifest.a033f47217f45b8556775d3218590676.js": "/coins-collect/precache-manifest.a033f47217f45b8556775d3218590676.js",
+    "precache-manifest.48b4c01cc86c9ebbe34b5c690bba1acd.js": "/coins-collect/precache-manifest.48b4c01cc86c9ebbe34b5c690bba1acd.js",
     "service-worker.js": "/coins-collect/service-worker.js",
     "static/css/2.d9ad5f5c.chunk.css.map": "/coins-collect/static/css/2.d9ad5f5c.chunk.css.map",
     "static/css/main.dc0a14bb.chunk.css.map": "/coins-collect/static/css/main.dc0a14bb.chunk.css.map",
@@ -21,6 +21,6 @@
     "static/css/2.d9ad5f5c.chunk.css",
     "static/js/2.1e22bf2c.chunk.js",
     "static/css/main.dc0a14bb.chunk.css",
-    "static/js/main.367775c1.chunk.js"
+    "static/js/main.f3b8070f.chunk.js"
   ]
 }
