@@ -9,7 +9,7 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <HashRouter basename='dapp'>
+    <HashRouter basename='/dapp'>
       <App />
     </HashRouter>
   </React.StrictMode>,
