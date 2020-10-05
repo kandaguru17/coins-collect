@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function From({ onFormSubmit, state, onChange, title }) {
+export default function From({ onFormSubmit, state, onChange, title, formType }) {
   return (
-    <>
-      <h1>{title}</h1>
+    <div>
+      <h1 className='mb-5'>{title}</h1>
       <div>
         <form onSubmit={onFormSubmit} className='row'>
           <div className='input-group col-6 offset-2'>
@@ -21,7 +21,7 @@ export default function From({ onFormSubmit, state, onChange, title }) {
               </span>
             </div>
           </div>
-          <div className='col-6 offset-2 mt-3'>
+          <div className='col-6 offset-2 formTypemt-3'>
             <textarea
               rows='10'
               type='text'
@@ -30,17 +30,16 @@ export default function From({ onFormSubmit, state, onChange, title }) {
               placeholder='description'
               name='description'
               onChange={onChange}
-              value={state.description}
             />
           </div>
           <div className='col-6 offset-2 mt-3'>
             <button type='submit' className='btn btn-primary' disabled={state.isLoading}>
               {state.isLoading && <span class='spinner-grow spinner-grow-sm mr-1' role='status' aria-hidden='true' />}
-              Create Project
+              {formType === 'create' ? 'Create' : 'Update'} Project
             </button>
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }

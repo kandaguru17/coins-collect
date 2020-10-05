@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import factoryInstance from '../ethereum/factory';
-import web3 from '../ethereum/web3';
 import { useHistory } from 'react-router-dom';
 import From from '../component/From';
 import getDeployedCampaignInstance from '../ethereum/campaign';
+import web3 from '../ethereum/web3';
 
 function UpdateProject(props) {
   const [state, setState] = useState({ minimumContribution: 0, description: '', message: '', isLoading: false });
@@ -65,7 +64,13 @@ function UpdateProject(props) {
   return (
     <div className='text-center'>
       {renderMessage()}
-      <From onFormSubmit={onFormSubmit} onChange={onChange} state={state} title={'Create a new Project here'} />
+      <From
+        onFormSubmit={onFormSubmit}
+        onChange={onChange}
+        state={state}
+        title={'Update your Project here'}
+        formType={'update'}
+      />
     </div>
   );
 }

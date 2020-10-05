@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import getCampaignInstance from '../ethereum/campaign';
-import { renderLoading } from './ShowProjects';
-import ProjectDetails from '../component/ProjectDetails';
 import ContributeForm from '../component/ContributeForm';
-import web3 from '../ethereum/web3';
+import ProjectDetails from '../component/ProjectDetails';
 import SpendingRequestForm from '../component/SpendingRequestForm';
-import { useHistory } from 'react-router-dom';
+import getCampaignInstance from '../ethereum/campaign';
+import web3 from '../ethereum/web3';
+import { renderLoading } from './ShowProjects';
 
 function ViewProjectDetails(props) {
   const { campaignId } = props.match.params;
-  const history = useHistory();
   const [state, setState] = useState({ isLoading: true, result: {}, message: '' });
   const [reRender, setReRender] = useState(false);
 

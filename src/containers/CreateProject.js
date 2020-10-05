@@ -55,7 +55,13 @@ function CreateProject() {
   return (
     <div className='text-center'>
       {renderMessage()}
-      <From onFormSubmit={onFormSubmit} onChange={onChange} state={state} title={'Create a new Project here'} />
+      <From
+        onFormSubmit={onFormSubmit}
+        onChange={onChange}
+        state={state}
+        title={'Create a new Project here'}
+        formType={'create'}
+      />
     </div>
   );
 }
